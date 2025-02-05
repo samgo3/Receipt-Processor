@@ -1,0 +1,151 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Fetch Receipt Processor",
+        "contact": {},
+        "version": "0.1"
+    },
+    "host": "localhost:5555",
+    "basePath": "/",
+    "paths": {
+        "/receipts/process": {
+            "post": {
+                "description": "Submits a receipt for processing.",
+                "tags": [
+                    "receipts"
+                ],
+                "summary": "Submits a receipt for processing.",
+                "parameters": [
+                    {
+                        "description": "Receipt",
+                        "name": "receipt",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReceiptRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.ProcessReceiptResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "The receipt is invalid.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/receipts/{id}/points": {
+            "get": {
+                "description": "Returns the points awarded for the receipt.",
+                "tags": [
+                    "receipts"
+                ],
+                "summary": "Returns the points awarded for the receipt.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Receipt ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.PointsResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No receipt found for that ID.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Item": {
+            "type": "object",
+            "required": [
+                "price",
+                "shortDescription"
+            ],
+            "properties": {
+                "price": {
+                    "description": "The price of the item.\nRequired: true\npattern: ^\\d+\\.\\d{2}$",
+                    "type": "string"
+                },
+                "shortDescription": {
+                    "description": "The short description of the item.\nRequired: true\npattern: ^[\\s\\w-]+$",
+                    "type": "string"
+                }
+            }
+        },
+        "models.PointsResponse": {
+            "type": "object",
+            "properties": {
+                "points": {
+                    "description": "The total points earned from the receipt.",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ProcessReceiptResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "The unique identifier for the receipt.",
+                    "type": "string"
+                }
+            }
+        },
+        "models.ReceiptRequest": {
+            "type": "object",
+            "required": [
+                "items",
+                "purchaseDate",
+                "purchaseTime",
+                "retailer",
+                "total"
+            ],
+            "properties": {
+                "items": {
+                    "description": "The list of items in the receipt.\nRequired: true",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                        "$ref": "#/definitions/models.Item"
+                    }
+                },
+                "purchaseDate": {
+                    "description": "The date of purchase.\nRequired: true",
+                    "type": "string"
+                },
+                "purchaseTime": {
+                    "description": "The time of purchase.\nRequired: true",
+                    "type": "string"
+                },
+                "retailer": {
+                    "description": "The name of the retailer.\nRequired: true\npattern: ^[\\w\\s\\-\u0026]+$",
+                    "type": "string"
+                },
+                "total": {
+                    "description": "The total amount of the receipt.\nRequired: true\npattern: ^\\d+\\.\\d{2}$",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
