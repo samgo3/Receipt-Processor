@@ -20,7 +20,7 @@ cd Receipt-Processor
 #### 2. Install Requirements
 You will need the following installed on your local machine
 - docker -- [install guide](https://docs.docker.com/get-docker/)
-- [go](https://go.dev/doc/install) v1.21.1+ 
+- [go](https://go.dev/doc/install) v1.23.2+ 
 -  [swag](https://github.com/swaggo/swag) : This project uses  swag to generate swagger documentation for the apis.
     ```bash 
     go install github.com/swaggo/swag/cmd/swag@latest
