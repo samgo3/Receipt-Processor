@@ -9,6 +9,7 @@ type ReceiptService struct {
 	repo repository.Repository
 }
 
+// NewReceiptService creates a new instance of ReceiptService.
 func NewReceiptService(repo repository.Repository) *ReceiptService {
 	return &ReceiptService{repo: repo}
 }
@@ -33,6 +34,7 @@ func (s *ReceiptService) GetPointsById(id string) (int64, error) {
 	return points, nil
 }
 
+// CalculatePoints calculates the points for a given receipt.
 func (s *ReceiptService) CalculatePoints(receipt models.ReceiptRequest) int64 {
 	points := int64(0)
 	rules := []Rule{

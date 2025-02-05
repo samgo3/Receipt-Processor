@@ -1,5 +1,6 @@
 package models
 
+// Item represents an item in a receipt.
 type Item struct {
 	// The short description of the item.
 	// Required: true
@@ -11,6 +12,7 @@ type Item struct {
 	Price string `json:"price" validate:"required,validateNum"`
 }
 
+// ReceiptRequest represents a request to process a receipt.
 type ReceiptRequest struct {
 	// The name of the retailer.
 	// Required: true
